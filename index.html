@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Page metadata -->
+  <meta charset="UTF-8">
+  <!-- Mobile viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Browser title -->
+  <title>Julian Ortega — Developer & Designer</title>
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    /* Global reset */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Design tokens */
+    :root {
+      --white: #ffffff;
+      --black: #000000;
+      --gray-100: #f5f5f7;
+      --gray-200: #e8e8ed;
+      --gray-400: #86868b;
+      --gray-600: #424245;
+      --gray-800: #1d1d1f;
+      --accent: #0071e3;
+      --accent-hover: #0077ed;
+      --section-pad: 120px;
+      --nav-h: 52px;
+    }
+
+    /* Smooth scrolling */
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    /* Body defaults */
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--gray-800);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ─────────────────────────────────────────────── */
+    /* Fixed navigation */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      transition: background 0.3s;
+    }
+
+    /* Brand logo */
+    .nav-brand {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+
+    /* Nav list */
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    /* Nav anchors */
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--gray-600);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    /* Hover state */
+    .nav-links a:hover { color: var(--black); }
+
+    /* ─── HERO ────────────────────────────────────────────── */
+    /* Full-height hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: calc(var(--nav-h) + 60px) 24px 80px;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 900px; height: 900px;
+      background: radial-gradient(circle, rgba(0,113,227,0.06) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* Eyebrow label */
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.1s forwards;
+    }
+
+    /* Main heading */
+    .hero h1 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 400;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      color: var(--black);
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.25s forwards;
+    }
+
+    /* Italic name */
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gray-400);
+    }
+
+    /* Subtitle text */
+    .hero-sub {
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--gray-600);
+      max-width: 520px;
+      line-height: 1.55;
+      margin-top: 24px;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+
+    /* CTA buttons */
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.55s forwards;
+    }
+
+    /* Primary button */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 13px 26px;
+      border-radius: 980px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    /* Primary hover */
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: scale(1.02);
+      box-shadow: 0 6px 24px rgba(0,113,227,0.28);
+    }
+
+    /* Ghost button */
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 13px 26px;
+      border-radius: 980px;
+      border: 1.5px solid var(--accent);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+
+    /* Ghost hover */
+    .btn-ghost:hover {
+      background: rgba(0,113,227,0.06);
+      transform: scale(1.02);
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.2s forwards;
+    }
+
+    /* Scroll label */
+    .scroll-hint span {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+    }
+
+    /* Animated line */
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gray-400), transparent);
+      animation: scrollPulse 1.8s ease-in-out infinite;
+    }
+
+    /* ─── SECTIONS ────────────────────────────────────────── */
+    /* Section container */
+    section {
+      padding: var(--section-pad) 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Section eyebrow */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    /* Section heading */
+    .section-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 400;
+      letter-spacing: -0.025em;
+      line-height: 1.12;
+      color: var(--black);
+      margin-bottom: 20px;
+    }
+
+    /* Body copy */
+    .section-body {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--gray-600);
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    /* ─── ABOUT ───────────────────────────────────────────── */
+    /* Two-column grid */
+    #about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    /* Avatar column */
+    .about-visual {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Spinning ring */
+    .avatar-ring {
+      position: relative;
+      width: 240px;
+      height: 240px;
+    }
+
+    /* Ring gradient */
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent), #5ac8fa, #34c759, var(--accent));
+      animation: spinRing 8s linear infinite;
+    }
+
+    /* White gap */
+    .avatar-ring::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: var(--white);
+    }
+
+    /* Placeholder avatar */
+    .avatar-placeholder {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e8e8ed 0%, #d2d2d7 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Silhouette icon */
+    .avatar-placeholder svg {
+      width: 90px;
+      height: 90px;
+      fill: #86868b;
+    }
+
+    /* Stats grid */
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    /* Single stat */
+    .stat-chip {
+      background: var(--gray-100);
+      border-radius: 16px;
+      padding: 20px 22px;
+    }
+
+    /* Stat number */
+    .stat-chip .num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    /* Stat caption */
+    .stat-chip .label {
+      font-size: 0.78rem;
+      color: var(--gray-400);
+      margin-top: 4px;
+    }
+
+    /* ─── SKILLS STRIP ────────────────────────────────────── */
+    /* Full-width band */
+    .skills-strip {
+      background: var(--gray-100);
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    /* Strip wrapper */
+    .skills-strip-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Strip heading */
+    .skills-strip h3 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 32px;
+    }
+
+    /* Pills row */
+    .skills-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* Skill pill */
+    .pill {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 980px;
+      padding: 10px 22px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--gray-800);
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    /* Pill hover */
+    .pill:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(0,113,227,0.14);
+      transform: translateY(-2px);
+    }
+
+    /* ─── PROJECTS ────────────────────────────────────────── */
+    /* Projects top padding */
+    #projects {
+      padding-top: var(--section-pad);
+      padding-bottom: 40px;
+    }
+
+    /* Projects header area */
+    .projects-header {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* Year divider row */
+    .year-divider {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 48px auto 28px;
+      padding: 0 40px;
+    }
+
+    /* Year badge */
+    .year-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--gray-800);
+      padding: 5px 14px;
+      border-radius: 980px;
+      white-space: nowrap;
+    }
+
+    /* Horizontal rule */
+    .year-line {
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    /* Card grid */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto 0;
+      padding: 0 40px;
+    }
+
+    /* Individual card */
+    .project-card {
+      background: var(--gray-100);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    /* Card hover lift */
+    .project-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.12);
+    }
+
+    /* Thumbnail area */
+    .project-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #e8e8ed 0%, #d2d2d7 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Thumbnail image */
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Emoji fallback */
+    .project-thumb-fallback {
+      font-size: 2.5rem;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e8e8ed;
+    }
+
+    /* Card body */
+    .project-info {
+      padding: 22px 22px 16px;
+    }
+
+    /* Card title */
+    .project-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+
+    /* Card summary */
+    .project-info .card-summary {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.55;
+      margin-bottom: 10px;
+    }
+
+    /* Tech badges row */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    /* Single badge */
+    .tech-badge {
+      background: var(--gray-200);
+      color: var(--gray-600);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* Process section */
+    .project-process {
+      background: rgba(0,113,227,0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+
+    /* Process heading */
+    .project-process .process-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    /* Process text */
+    .project-process p {
+      font-size: 0.8rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    /* View link */
+    .project-link {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+    }
+
+    /* Arrow animation */
+    .project-link svg {
+      transition: transform 0.2s;
+    }
+
+    /* Arrow on hover */
+    .project-card:hover .project-link svg {
+      transform: translateX(3px);
+    }
+
+    /* ─── RESUME ──────────────────────────────────────────── */
+    /* Dark background section */
+    .resume-bg {
+      background: var(--black);
+      padding: var(--section-pad) 40px;
+    }
+
+    /* Resume centered wrapper */
+    .resume-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* Resume label override */
+    .resume-bg .section-label { color: #5ac8fa; }
+    /* Resume title override */
+    .resume-bg .section-title { color: var(--white); }
+
+    /* Resume two columns */
+    .resume-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    /* Dark card */
+    .resume-block {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px 30px;
+    }
+
+    /* Block eyebrow */
+    .resume-block-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #5ac8fa;
+      margin-bottom: 12px;
+    }
+
+    /* Block heading */
+    .resume-block h4 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+
+    /* Block body */
+    .resume-block p {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    /* Contact row */
+    .contact-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    /* Contact pill */
+    .contact-chip {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ─── EMPLOYMENT ──────────────────────────────────────── */
+    /* Centered experience */
+    #employment {
+      max-width: 860px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* Quote card */
+    .employment-card {
+      background: var(--gray-100);
+      border-radius: 24px;
+      padding: 56px 60px;
+      margin-top: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative quote */
+    .employment-card::before {
+      content: '"';
+      position: absolute;
+      top: -20px; left: 24px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 10rem;
+      color: var(--gray-200);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    /* Description text */
+    .employment-card p {
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--gray-600);
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Role label */
+    .employment-card .role {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────── */
+    /* Footer wrapper */
+    footer {
+      background: var(--gray-100);
+      border-top: 1px solid var(--gray-200);
+      padding: 40px;
+      text-align: center;
+    }
+
+    /* Footer copy */
+    footer p {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+    }
+
+    /* Footer bold */
+    footer strong {
+      color: var(--gray-600);
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────────────────── */
+    /* Fade upward */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Simple fade */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Ring rotation */
+    @keyframes spinRing {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Scroll pulse */
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* Reveal active */
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger delays */
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────── */
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      /* Mobile nav */
+      nav { padding: 0 20px; }
+      /* Tighter spacing */
+      :root { --section-pad: 72px; }
+      /* Stack about */
+      #about { grid-template-columns: 1fr; gap: 48px; text-align: center; }
+      /* Center avatar */
+      .about-visual { justify-content: center; }
+      /* Stack resume */
+      .resume-grid { grid-template-columns: 1fr; }
+      /* Smaller card */
+      .employment-card { padding: 40px 28px; }
+      /* Mobile grid */
+      .project-grid { padding: 0 20px; }
+      /* Mobile sections */
+      section { padding: var(--section-pad) 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<!-- Navigation bar -->
+<nav id="navbar">
+  <!-- Site brand -->
+  <a class="nav-brand" href="#">Julian Ortega</a>
+  <!-- Navigation links -->
+  <ul class="nav-links">
+    <li><a onclick="smoothTo('about')">About</a></li>
+    <li><a onclick="smoothTo('projects')">Projects</a></li>
+    <li><a onclick="smoothTo('resume')">Resume</a></li>
+    <li><a onclick="smoothTo('employment')">Experience</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<!-- Landing section -->
+<div class="hero" id="home">
+  <!-- Portfolio label -->
+  <p class="hero-eyebrow">Portfolio · 2025</p>
+  <!-- Name heading -->
+  <h1>Julian <em>Ortega</em></h1>
+  <!-- Tagline text -->
+  <p class="hero-sub">Web Developer &amp; Designer at Morris County School of Technology — pursuing a career in Software Engineering and UI/UX Development.</p>
+  <!-- CTA group -->
+  <div class="hero-cta-group">
+    <!-- Projects button -->
+    <span class="btn-primary" onclick="smoothTo('projects')">
+      View Projects
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </span>
+    <!-- About button -->
+    <span class="btn-ghost" onclick="smoothTo('about')">About Me</span>
+  </div>
+  <!-- Scroll indicator -->
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- ABOUT / BIOGRAPHY -->
+<!-- Professional biography -->
+<section id="about">
+  <!-- Avatar column -->
+  <div class="about-visual reveal">
+    <!-- Spinning ring -->
+    <div class="avatar-ring">
+      <!-- Profile placeholder -->
+      <div class="avatar-placeholder">
+        <!-- Silhouette icon -->
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Head circle -->
+          <circle cx="50" cy="36" r="20"/>
+          <!-- Body ellipse -->
+          <ellipse cx="50" cy="82" rx="30" ry="22"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biography content -->
+  <div>
+    <!-- Section label -->
+    <p class="section-label reveal">About Me</p>
+    <!-- Section heading -->
+    <h2 class="section-title reveal reveal-delay-1">Building purposeful software,<br>one project at a time.</h2>
+    <!-- Professional bio -->
+    <p class="section-body reveal reveal-delay-2">
+      My name is Julian Ortega, and I am a sophomore enrolled at the Morris County School of Technology (MCST). In MCST, I follow the career track of Web Development and Design with emphasis on software engineering and front-end user interface/user experience development. I have knowledge and skills in HTML5, CSS3, JavaScript, Java, Bootstrap 5, and p5.js to create a responsive digital experience for my users. The principles that guide my practice include clean design, problem-solving, and learning. My goal is to develop applications that integrate aesthetics and engineering, and eventually join the Computer and Information Sciences field.
+    </p>
+    <!-- Statistics grid -->
+    <div class="about-stats reveal reveal-delay-3">
+      <!-- Projects stat -->
+      <div class="stat-chip">
+        <div class="num">8+</div>
+        <div class="label">Projects shipped</div>
+      </div>
+      <!-- Languages stat -->
+      <div class="stat-chip">
+        <div class="num">6</div>
+        <div class="label">Languages &amp; frameworks</div>
+      </div>
+      <!-- Years stat -->
+      <div class="stat-chip">
+        <div class="num">2</div>
+        <div class="label">Years at MCST</div>
+      </div>
+      <!-- Drive stat -->
+      <div class="stat-chip">
+        <div class="num">&#8734;</div>
+        <div class="label">Drive to learn</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS STRIP -->
+<!-- Technology stack -->
+<div class="skills-strip">
+  <!-- Inner wrapper -->
+  <div class="skills-strip-inner">
+    <!-- Stack heading -->
+    <h3>Technology Stack</h3>
+    <!-- Pills container -->
+    <div class="skills-pills">
+      <!-- Individual skills -->
+      <span class="pill">HTML5</span>
+      <span class="pill">CSS3</span>
+      <span class="pill">JavaScript</span>
+      <span class="pill">Java</span>
+      <span class="pill">Python</span>
+      <span class="pill">Bootstrap 5</span>
+      <span class="pill">p5.js</span>
+      <span class="pill">Responsive Design</span>
+      <span class="pill">UI / UX</span>
+      <span class="pill">Git / GitHub</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<!-- Work showcase -->
+<div id="projects" style="padding-top: 80px; padding-bottom: 80px;">
+  <!-- Section header -->
+  <div class="projects-header">
+    <!-- Work label -->
+    <p class="section-label reveal">Work</p>
+    <!-- Projects heading -->
+    <h2 class="section-title reveal reveal-delay-1">Projects I've built.</h2>
+  </div>
+
+  <!-- Freshman divider -->
+  <div class="year-divider reveal">
+    <span class="year-tag">Freshman Year</span>
+    <div class="year-line"></div>
+  </div>
+
+  <!-- Freshman cards -->
+  <div class="project-grid">
+
+    <!-- Creature Lab -->
+    <a href="https://editor.p5js.org/julian.ortega/full/JKHvzfi8A" target="_blank" class="project-card reveal">
+      <!-- Project thumbnail -->
+      <div class="project-thumb">
+        <img src="creature.png" alt="Creature Lab" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <!-- Fallback emoji -->
+        <div class="project-thumb-fallback" style="display:none;">&#128760;</div>
+      </div>
+      <!-- Card details -->
+      <div class="project-info">
+        <!-- Card title -->
+        <h3>Creature Lab</h3>
+        <!-- Problem statement -->
+        <p class="card-summary">Simulates an autonomous alien creature navigating its environment. It solves the problem of modeling lifelike behavior through rules-based movement in p5.js.</p>
+        <!-- Tech stack -->
+        <div class="tech-stack">
+          <span class="tech-badge">p5.js</span>
+          <span class="tech-badge">JavaScript</span>
+          <span class="tech-badge">Object-Oriented Design</span>
+        </div>
+        <!-- Process reflection -->
+        <div class="project-process">
+          <div class="process-label">Process &amp; Challenges</div>
+          <p>The main challenge was creating natural-looking movement without physics libraries. I relied on velocity vectors and boundary detection, debugging edge cases where the creature would clip off-screen.</p>
+        </div>
+        <!-- View link -->
+        <span class="project-link">View project <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Noise Lab -->
+    <a href="https://editor.p5js.org/julian.ortega/full/B8SNZW1kd" target="_blank" class="project-card reveal reveal-delay-1">
+      <!-- Project thumbnail -->
+      <div class="project-thumb">
+        <img src="noise.png" alt="Noise Lab" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <!-- Fallback emoji -->
+        <div class="project-thumb-fallback" style="display:none;">&#129404;</div>
+      </div>
+      <!-- Card details -->
+      <div class="project-info">
+        <!-- Card title -->
+        <h3>Noise Lab</h3>
+        <!-- Problem statement -->
+        <p class="card-summary">Renders a jellyfish with fluid, organic tentacle motion. It addresses the challenge of simulating non-repeating natural movement using Perlin noise algorithms.</p>
+        <!-- Tech stack -->
+        <div class="tech-stack">
+          <span class="tech-badge">p5.js</span>
+          <span class="tech-badge">JavaScript</span>
+          <span class="tech-badge">Perlin Noise</span>
+        </div>
+        <!-- Process reflection -->
+        <div class="project-process">
+          <div class="process-label">Process &amp; Challenges</div>
+          <p>Understanding how to increment the noise offset over time to produce smooth, non-looping motion was the key insight. I adjusted the amplitude and frequency values extensively to create a believable aquatic feel.</p>
+        </div>
+        <!-- View link -->
+        <span class="project-link">View project <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Bubble Lab -->
+    <a href="https://editor.p5js.org/julian.ortega/full/9rS8raxVg" target="_blank" class="project-card reveal reveal-delay-2">
+      <!-- Project thumbnail -->
+      <div class="project-thumb">
+        <img src="bubble.png" alt="Bubble Lab" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <!-- Fallback emoji -->
+        <div class="project-thumb-fallback" style="display:none;">&#129703;</div>
+      </div>
+      <!-- Card details -->
+      <div class="project-info">
+        <!-- Card title -->
+        <h3>Bubble Lab</h3>
+        <!-- Problem statement -->
+        <p class="card-summary">Generates a field of transparent bubbles that drift upward with random speeds and sizes. This models realistic particle physics within a 2D canvas environment.</p>
+        <!-- Tech stack -->
+        <div class="tech-stack">
+          <span class="tech-badge">p5.js</span>
+          <span class="tech-badge">JavaScript</span>
+          <span class="tech-badge">Particle Systems</span>
+        </div>
+        <!-- Process reflection -->
+        <div class="project-process">
+          <div class="process-label">Process &amp; Challenges</div>
+          <p>Managing an array of bubble objects and recycling them off-screen without memory buildup required careful use of splice and index tracking. This was a foundational lesson in efficient animation loops.</p>
+        </div>
+        <!-- View link -->
+        <span class="project-link">View project <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Walker Lab -->
+    <a href="https://editor.p5js.org/julian.ortega/full/8ACnjF3YJ" target="_blank" class="project-card reveal reveal-delay-3">
+      <!-- Project thumbnail -->
+      <div class="project-thumb">
+        <img src="Random Walker.png" alt="Walker Lab" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <!-- Fallback emoji -->
+        <div class="project-thumb-fallback" style="display:none;">&#128309;</div>
+      </div>
+      <!-- Card details -->
+      <div class="project-info">
+        <!-- Card title -->
+        <h3>Walker Lab</h3>
+        <!-- Problem statement -->
+        <p class="card-summary">Visualizes a random walk algorithm. An ellipse moves randomly across the canvas, painting its path and demonstrating probabilistic path generation.</p>
+        <!-- Tech stack -->
+        <div class="tech-stack">
+          <span class="tech-badge">p5.js</span>
+          <span class="tech-badge">JavaScript</span>
+          <span class="tech-badge">Algorithms</span>
+        </div>
+        <!-- Process reflection -->
+        <div class="project-process">
+          <div class="process-label">Process &amp; Challenges</div>
+          <p>The challenge was ensuring the walker felt truly random rather than biased. I experimented with variable probability directional weights and used background transparency to layer the trail effect without clearing the canvas each frame.</p>
+        </div>
+        <!-- View link -->
+        <span class="project-link">View project <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+
+    <!-- For Loop Lab -->
+    <a href="https://editor.p5js.org/julian.ortega/full/BBEkXD2k4" target="_blank" class="project-card reveal reveal-delay-4">
+      <!-- Project thumbnail -->
+      <div class="project-thumb">
+        <img src="Screenshot 2025-06-09 090848.png" alt="For Loop Lab" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <!-- Fallback emoji -->
+        <div class="project-thumb-fallback" style="display:none;">&#9899;</div>
+      </div>
+      <!-- Card details -->
+      <div class="project-info">
+        <!-- Card title -->
+        <h3>For Loop Lab</h3>
+        <!-- Problem statement -->
+        <p class="card-summary">Demonstrates dynamic iteration. Ellipses multiply and reposition in real-time based on the mouse's X coordinate, making the loop logic visually interactive.</p>
+        <!-- Tech stack -->
+        <div class="tech-stack">
+          <span class="tech-badge">p5.js</span>
+          <span class="tech-badge">JavaScript</span>
+          <span class="tech-badge">Iterative Logic</span>
+        </div>
+        <!-- Process reflection -->
+        <div class="project-process">
+          <div class="process-label">Process &amp; Challenges</div>
+          <p>Mapping mouseX to a loop counter required clamping the value to avoid rendering thousands of shapes. This project taught me the importance of input validation, even in small creative programs.</p>
+        </div>
+        <!-- View link -->
+        <span class="project-link">View project <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Fashion Archive -->
+    <a href="#" class="project-card reveal reveal-delay-5">
+      <!-- Project thumbnail -->
+      <div class="project-thumb">
+        <img src="fashion.png" alt="Fashion Archive" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <!-- Fallback emoji -->
+        <div class="project-thumb-fallback" style="display:none;">&#128247;</div>
+      </div>
+      <!-- Card details -->
+      <div class="project-info">
+        <!-- Card title -->
+        <h3>Fashion Archive</h3>
+        <!-- Problem statement -->
+        <p class="card-summary">A fully responsive e-commerce-style website for a high-end fashion small business. It solves the need for a polished, brand-consistent online presence without a CMS.</p>
+        <!-- Tech stack -->
+        <div class="tech-stack">
+          <span class="tech-badge">HTML5</span>
+          <span class="tech-badge">CSS3</span>
+          <span class="tech-badge">Bootstrap 5</span>
+          <span class="tech-badge">JavaScript</span>
+        </div>
+        <!-- Process reflection -->
+        <div class="project-process">
+          <div class="process-label">Process &amp; Challenges</div>
+          <p>Translating a brand's aesthetic into a consistent design system was the central design challenge. I used Bootstrap's grid to ensure full responsiveness across breakpoints.</p>
+        </div>
+        <!-- View link -->
+        <span class="project-link">View project <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+
+  </div><!-- end freshman grid -->
+
+  <!-- Sophomore divider -->
+  <div class="year-divider reveal" style="margin-top: 60px;">
+    <span class="year-tag">Sophomore Year</span>
+    <div class="year-line"></div>
+  </div>
+
+  <!-- Sophomore cards -->
+  <div class="project-grid">
+
+    <!-- Image Compression -->
+    <a href="https://github.com/julian12o/Image-compression.git" target="_blank" class="project-card reveal">
+      <!-- Project thumbnail -->
+      <div class="project-thumb">
+        <!-- Compression icon -->
+        <div class="project-thumb-fallback" style="display:flex; background: linear-gradient(135deg,#1d1d1f,#3a3a3c);">
+          <span style="font-size:3rem;">&#128376;</span>
+        </div>
+      </div>
+      <!-- Card details -->
+      <div class="project-info">
+        <!-- Card title -->
+        <h3>Image Compression Lab</h3>
+        <!-- Problem statement -->
+        <p class="card-summary">A Java application that reduces image file sizes by analyzing and encoding pixel data. It addresses the practical problem of storage optimization without relying on external libraries.</p>
+        <!-- Tech stack -->
+        <div class="tech-stack">
+          <span class="tech-badge">Java</span>
+          <span class="tech-badge">File I/O</span>
+          <span class="tech-badge">Algorithms</span>
+          <span class="tech-badge">GitHub</span>
+        </div>
+        <!-- Process reflection -->
+        <div class="project-process">
+          <div class="process-label">Process &amp; Challenges</div>
+          <p>Reading and writing raw pixel arrays in Java required deep familiarity with BufferedImage and bit manipulation. Debugging color channel corruption during encoding was the most significant obstacle, resolved through systematic unit testing of each channel independently.</p>
+        </div>
+        <!-- GitHub link -->
+        <span class="project-link">View on GitHub <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Python Library -->
+    <a href="https://github.com/julian12o/-The-Python-Library-Project.git" target="_blank" class="project-card reveal reveal-delay-1">
+      <!-- Project thumbnail -->
+      <div class="project-thumb">
+        <!-- Library icon -->
+        <div class="project-thumb-fallback" style="display:flex; background: linear-gradient(135deg,#1d3557,#457b9d);">
+          <span style="font-size:3rem;">&#128013;</span>
+        </div>
+      </div>
+      <!-- Card details -->
+      <div class="project-info">
+        <!-- Card title -->
+        <h3>The Python Library Project</h3>
+        <!-- Problem statement -->
+        <p class="card-summary">A command-line library management system written in Python. It tackles the real-world issue of cataloging, searching, and checking out books through a structured CLI interface.</p>
+        <!-- Tech stack -->
+        <div class="tech-stack">
+          <span class="tech-badge">Python</span>
+          <span class="tech-badge">CLI</span>
+          <span class="tech-badge">Data Structures</span>
+          <span class="tech-badge">GitHub</span>
+        </div>
+        <!-- Process reflection -->
+        <div class="project-process">
+          <div class="process-label">Process &amp; Challenges</div>
+          <p>Designing a menu-driven interface that remained intuitive while supporting multiple operations required careful UX thinking, even in a text-only environment. Handling invalid input gracefully without crashing the loop was a recurring debugging focus.</p>
+        </div>
+        <!-- GitHub link -->
+        <span class="project-link">View on GitHub <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Software Design Final -->
+    <a href="https://codehs.com/sandbox/id/final-project-klrx3Lt" target="_blank" class="project-card reveal reveal-delay-2">
+      <!-- Project thumbnail -->
+      <div class="project-thumb">
+        <!-- Sprint icon -->
+        <div class="project-thumb-fallback" style="display:flex; background: linear-gradient(135deg,#0f3460,#533483);">
+          <span style="font-size:3rem;">&#128202;</span>
+        </div>
+      </div>
+      <!-- Card details -->
+      <div class="project-info">
+        <!-- Card title -->
+        <h3>Software Design Final Project</h3>
+        <!-- Problem statement -->
+        <p class="card-summary">An application for sprint analysis that receives run velocity information and generates reports. It fulfills the need for a fast and human-readable solution in software engineering.</p>
+        <!-- Tech stack -->
+        <div class="tech-stack">
+          <span class="tech-badge">JavaScript</span>
+          <span class="tech-badge">CodeHS</span>
+          <span class="tech-badge">CLI</span>
+          <span class="tech-badge">Data Analysis</span>
+        </div>
+        <!-- Process reflection -->
+        <div class="project-process">
+          <div class="process-label">Process &amp; Challenges</div>
+          <p>Separating data input, processing, and display into different parts formed the architectural problem that needed to be solved. Using software engineering concepts in a console-based application helped emphasize the importance of modularity in code, regardless of how large the program is.</p>
+        </div>
+        <!-- View link -->
+        <span class="project-link">View project <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+
+  </div><!-- end sophomore grid -->
+</div><!-- end projects -->
+
+<!-- RESUME -->
+<!-- Background credentials -->
+<div class="resume-bg" id="resume">
+  <!-- Resume wrapper -->
+  <div class="resume-inner">
+    <!-- Section label -->
+    <p class="section-label reveal">Resume</p>
+    <!-- Section heading -->
+    <h2 class="section-title reveal reveal-delay-1">Background &amp;<br>credentials.</h2>
+
+    <!-- Resume four blocks -->
+    <div class="resume-grid">
+      <!-- Contact block -->
+      <div class="resume-block reveal reveal-delay-1">
+        <div class="resume-block-label">Contact</div>
+        <h4>Julian Ortega</h4>
+        <!-- Contact chips -->
+        <div class="contact-line">
+          <span class="contact-chip">&#128205; 24 Lebron Drive, Akron, OH</span>
+          <span class="contact-chip">&#9993;&#65039; julian.ortega@mcvts.org</span>
+          <span class="contact-chip">&#128222; 298-467-7885</span>
+        </div>
+      </div>
+
+      <!-- Education block -->
+      <div class="resume-block reveal reveal-delay-2">
+        <div class="resume-block-label">Education</div>
+        <h4>Morris County School of Technology</h4>
+        <!-- Graduation detail -->
+        <p>Expected Graduation: 2028 &middot; Web Development &amp; Design Track &middot; CIS Career Pathway</p>
+      </div>
+
+      <!-- Technical skills -->
+      <div class="resume-block reveal reveal-delay-3">
+        <div class="resume-block-label">Technical Skills</div>
+        <h4>Languages &amp; Frameworks</h4>
+        <!-- Skills list -->
+        <p>Java &middot; Python &middot; HTML5 &middot; CSS3 &middot; JavaScript &middot; Bootstrap 5 &middot; p5.js &middot; Git / GitHub</p>
+      </div>
+
+      <!-- Soft skills -->
+      <div class="resume-block reveal reveal-delay-4">
+        <div class="resume-block-label">Soft Skills</div>
+        <h4>Professional Competencies</h4>
+        <!-- Competencies list -->
+        <p>Cross-functional Collaboration &middot; Analytical Problem-Solving &middot; Technical Communication &middot; Time Management &middot; Attention to Detail</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EMPLOYMENT -->
+<!-- Experience section -->
+<section id="employment">
+  <!-- Section label -->
+  <p class="section-label reveal" style="text-align:center;">Experience</p>
+  <!-- Section heading -->
+  <h2 class="section-title reveal reveal-delay-1" style="text-align:center;">Past employment.</h2>
+
+  <!-- Experience card -->
+  <div class="employment-card reveal reveal-delay-2">
+    <!-- Description text -->
+    <p>Worked as a data entry underwriter in an aviation insurance company, involving the task of converting hard copy insurance policies into digital form within a database format. Developed strong attention to detail, systematic organization of data, and proficiency in maintaining accuracy while under pressure of productivity requirements, which skills are transferable to the CIS sector within software testing/data management positions.</p>
+    <!-- Role label -->
+    <span class="role">Underwriter &middot; Aviation Insurance</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<!-- Page footer -->
+<footer>
+  <!-- Copyright line -->
+  <p><strong>Julian Ortega</strong> &middot; Morris County School of Technology &middot; Class of 2028</p>
+  <!-- Build note -->
+  <p style="margin-top: 6px;">Built with HTML, CSS &amp; JavaScript</p>
+</footer>
+
+<script>
+  // Smooth scroll — offset for fixed nav
+  function smoothTo(id) {
+    /* Find element */
+    const el = document.getElementById(id);
+    if (!el) return;
+    /* Nav height */
+    const navH = document.getElementById('navbar').offsetHeight;
+    /* Calculate position */
+    const y = el.getBoundingClientRect().top + window.scrollY - navH - 16;
+    /* Scroll smoothly */
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+  // Intersection observer — scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  /* Observer config */
+  const observer = new IntersectionObserver((entries) => {
+    /* Each entry */
+    entries.forEach(e => {
+      /* If visible */
+      if (e.isIntersecting) {
+        /* Add class */
+        e.target.classList.add('visible');
+        /* Stop watching */
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  /* Observe all */
+  reveals.forEach(el => observer.observe(el));
+
+  // Scroll listener — nav background
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    /* Check position */
+    if (window.scrollY > 20) {
+      /* Opaque background */
+      navbar.style.background = 'rgba(255,255,255,0.92)';
+      /* Add shadow */
+      navbar.style.boxShadow = '0 1px 0 rgba(0,0,0,0.1)';
+    } else {
+      /* Transparent background */
+      navbar.style.background = 'rgba(255,255,255,0.82)';
+      /* Remove shadow */
+      navbar.style.boxShadow = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
